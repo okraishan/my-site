@@ -1,0 +1,828 @@
+/* Second Draft: one stylesheet for the whole site.
+   Phone styles come first (mobile-first, Week 7).
+   The media queries near the bottom add the desktop layout. */
+
+/* Design tokens (Week 8: custom properties) */
+:root {
+  --white: #ffffff;
+  --sunken: #f2f2f2;  /* alternate sections */
+  --black: #000000;   /* headlines and dark sections */
+  --body: #262626;    /* paragraphs */
+  --muted: #a8a8a8;   /* captions and bylines */
+  --line: #d4d4d4;    /* thin rules */
+  --pen: #cc0000;     /* the editor's red pen, the only accent color */
+
+  /* Type (Week 5: Google Fonts) */
+  --display: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  --text: "Roboto", "Helvetica Neue", Arial, sans-serif;
+  --label: "Roboto Condensed", "Arial Narrow", Arial, sans-serif;
+}
+
+/* Box model (Week 5) */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--white);
+  color: var(--body);
+  font-family: var(--text);
+  font-size: 1.125rem;
+  line-height: 1.6;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration-color: var(--pen);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.18em;
+}
+
+a:hover {
+  color: var(--pen);
+}
+
+/* Keyboard users can always see where they are (Week 10) */
+:focus-visible {
+  outline: 3px solid var(--pen);
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: absolute;
+  z-index: 2;
+  left: 1rem;
+  top: -5rem;
+  padding: 0.5rem 1rem;
+  background: var(--black);
+  color: var(--white);
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* The black strip at the very top */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.4rem 1rem;
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--label);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.topbar p {
+  margin: 0;
+}
+
+/* Section backgrounds */
+.sunken {
+  background: var(--sunken);
+}
+
+/* Dark sections swap these colors for this section only */
+.inverse {
+  --pen: #ff6b6b;
+  --muted: #bdbdbd;
+  --line: rgb(255 255 255 / 0.25);
+  background: var(--black);
+  color: var(--white);
+}
+
+/* The sheet: a margin for editor's notes, then the page itself */
+.row {
+  padding-inline: 1rem;
+}
+
+.page {
+  padding-block: 1rem 2.5rem;
+}
+
+.note {
+  margin: 0;
+  padding-top: 2rem;
+  color: var(--pen);
+  font-family: var(--display);
+  font-size: 1.5rem;
+  font-style: italic;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.note + .page {
+  padding-top: 0.5rem;
+}
+
+/* Header and navigation (Week 6: Flexbox) */
+.masthead {
+  border-bottom: 3px solid var(--black);
+}
+
+.wordmark {
+  margin: 0;
+  padding-top: 0.75rem;
+  font-family: var(--display);
+  font-size: 2.25rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+.wordmark a {
+  color: var(--black);
+  text-decoration: none;
+}
+
+.masthead .page {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 2rem;
+  padding-block: 0.5rem 0.75rem;
+}
+
+.site-nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-nav a {
+  display: inline-block;
+  padding-block: 0.25rem;
+  color: var(--black);
+  font-family: var(--display);
+  font-size: 1.375rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.site-nav a:hover {
+  color: var(--pen);
+}
+
+.site-nav [aria-current="page"] {
+  color: var(--pen);
+  box-shadow: 0 3px 0 var(--pen);
+}
+
+/* Buttons (Week 8: transitions) */
+.header-cta,
+.cta {
+  display: inline-block;
+  background: var(--pen);
+  color: var(--white);
+  font-family: var(--label);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  line-height: 1;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background-color 0.2s ease;
+}
+
+.header-cta {
+  padding: 0.65rem 0.9rem;
+  font-size: 0.8125rem;
+}
+
+.cta {
+  padding: 1rem 1.5rem;
+  font-size: 0.9375rem;
+}
+
+.header-cta:hover,
+.cta:hover {
+  background: var(--black);
+  color: var(--white);
+}
+
+.inverse .cta {
+  background: #cc0000;
+}
+
+.inverse .cta:hover {
+  background: var(--white);
+  color: var(--black);
+}
+
+/* Type (Week 5 and Week 8: clamp) */
+h1,
+h2,
+h3 {
+  margin: 0;
+  color: var(--black);
+  font-family: var(--display);
+  font-weight: 800;
+}
+
+.inverse h2,
+.inverse h3 {
+  color: var(--white);
+}
+
+/* The home headline is three set lines, so it never re-wraps while fonts load */
+h1 {
+  margin-bottom: 1.5rem;
+  font-size: 11.6vw;
+  letter-spacing: 0.01em;
+  line-height: 0.94;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.story-title,
+.about-title {
+  font-size: clamp(3rem, 7vw, 6.5rem);
+  letter-spacing: 0;
+  line-height: 0.96;
+  text-transform: none;
+  white-space: normal;
+}
+
+h2 {
+  margin-bottom: 1.5rem;
+  padding-top: 0.75rem;
+  border-top: 3px solid var(--black);
+  font-size: clamp(2.5rem, 4.6vw, 4.25rem);
+  letter-spacing: 0.015em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.inverse h2 {
+  border-top-color: var(--white);
+}
+
+p,
+ol {
+  max-width: 44rem;
+}
+
+/* The editor's marks: <del> and <ins> are real HTML elements */
+del {
+  color: #767676;
+  text-decoration-color: var(--pen);
+  text-decoration-thickness: 0.07em;
+}
+
+ins {
+  color: var(--pen);
+  text-decoration: none;
+}
+
+.lede {
+  margin-top: 0;
+  color: var(--black);
+  font-size: clamp(1.25rem, 1.8vw, 1.5rem);
+  line-height: 1.4;
+}
+
+.byline {
+  margin-block: 0.25rem;
+  color: var(--muted);
+  font-family: var(--label);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.actions {
+  margin-top: 1.75rem;
+}
+
+/* Photos sit straight and clean (Week 3: figure and figcaption) */
+.print {
+  margin: 0;
+}
+
+figcaption {
+  padding-top: 0.6rem;
+  color: var(--muted);
+  font-family: var(--label);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+}
+
+/* In this issue (Week 7: Grid) */
+.lineup {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lineup li {
+  display: grid;
+  grid-template-columns: 6.5rem minmax(0, 1fr);
+  gap: 1rem;
+  align-items: start;
+  padding-block: 1.25rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.lineup img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.lineup h3 {
+  font-size: clamp(1.625rem, 3vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.05;
+}
+
+.lineup h3 a {
+  text-decoration: none;
+}
+
+.lineup h3 a:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--pen);
+  text-decoration-thickness: 3px;
+}
+
+.lineup .dek {
+  margin: 0.4rem 0 0.25rem;
+}
+
+/* Status tags: red means published */
+.status {
+  grid-column: 2;
+  justify-self: start;
+  margin: 0;
+  padding: 0.3rem 0.6rem;
+  font-family: var(--label);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.stamp {
+  background: var(--pen);
+  color: var(--white);
+}
+
+.draft {
+  border: 1px solid var(--black);
+  color: var(--black);
+}
+
+/* One sentence, four drafts */
+.drafts {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.drafts li {
+  display: grid;
+  gap: 0.25rem 2rem;
+  padding-block: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.drafts li:last-child {
+  border-bottom: 0;
+}
+
+.drafts h3 {
+  font-size: 1.625rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.drafts .sentence {
+  max-width: 46rem;
+  margin: 0;
+  font-size: clamp(1.1875rem, 1.7vw, 1.4375rem);
+  line-height: 1.45;
+}
+
+.drafts del {
+  color: #5c5c5c;
+}
+
+.drafts .said {
+  margin: 0;
+  color: var(--pen);
+  font-family: var(--display);
+  font-size: 1.375rem;
+  font-style: italic;
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+.drafts .sentence.done {
+  color: var(--black);
+  font-family: var(--display);
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 800;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+/* The cut pile */
+.pile {
+  display: grid;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+.cuts {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cuts li {
+  padding-block: 0.7rem 0.8rem;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--display);
+  font-size: clamp(1.75rem, 3vw, 2.625rem);
+  font-weight: 700;
+  line-height: 1.08;
+}
+
+.cuts li:first-child {
+  padding-top: 0;
+}
+
+.cuts .why {
+  display: block;
+  margin-top: 0.25rem;
+  color: var(--pen);
+  font-family: var(--label);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+/* Send us your worst draft */
+.invite {
+  display: grid;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.invite h2 {
+  padding-top: 0;
+  border-top: 0;
+  font-size: clamp(3.25rem, 7.4vw, 7rem);
+  line-height: 0.94;
+}
+
+.invite p {
+  font-size: clamp(1.125rem, 1.6vw, 1.3125rem);
+}
+
+/* The cover story */
+.dropcap::first-letter {
+  float: left;
+  padding-right: 0.08em;
+  color: var(--pen);
+  font-family: var(--display);
+  font-size: 4.9em;
+  font-weight: 800;
+  line-height: 0.8;
+}
+
+.article h2 {
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  font-size: clamp(2.25rem, 3.8vw, 3.5rem);
+}
+
+.article h2:first-child {
+  margin-top: 0;
+}
+
+.pullquote {
+  max-width: none;
+  margin: 0;
+  padding-top: 1rem;
+  border-top: 3px solid var(--pen);
+  color: var(--black);
+  font-family: var(--display);
+  font-size: clamp(2.75rem, 6vw, 5.5rem);
+  font-style: italic;
+  font-weight: 600;
+  line-height: 1.02;
+}
+
+/* Tables (Week 4) */
+.schedule {
+  width: 46rem;
+  border-collapse: collapse;
+}
+
+.files {
+  width: 100%;
+  margin-block: 2rem;
+  border-collapse: collapse;
+  font-size: 1.0625rem;
+  line-height: 1.35;
+}
+
+.schedule caption,
+.files caption {
+  padding-bottom: 0.75rem;
+  color: var(--black);
+  font-family: var(--display);
+  font-size: clamp(2.25rem, 3.8vw, 3.5rem);
+  font-weight: 800;
+  letter-spacing: 0.015em;
+  line-height: 1;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.files caption {
+  font-size: 1.75rem;
+}
+
+.schedule th,
+.schedule td,
+.files th,
+.files td {
+  padding: 0.7rem 0.75rem 0.7rem 0;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+.schedule thead th,
+.files thead th {
+  border-bottom: 3px solid var(--black);
+  color: var(--black);
+  font-family: var(--label);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.schedule tbody th,
+.schedule td {
+  color: var(--black);
+  font-family: var(--display);
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.files tbody th {
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+
+/* Numbered lists: the numbers come from CSS (Week 8: ::before) */
+.habits {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: habit;
+}
+
+.habits li {
+  display: grid;
+  grid-template-columns: 3.75rem minmax(0, 1fr);
+  gap: 1rem;
+  align-items: center;
+  padding-block: 1rem;
+  border-bottom: 1px solid var(--line);
+  color: var(--black);
+  font-size: clamp(1.1875rem, 1.9vw, 1.5rem);
+  line-height: 1.3;
+  counter-increment: habit;
+}
+
+.habits li::before {
+  content: counter(habit, decimal-leading-zero);
+  color: var(--pen);
+  font-family: var(--display);
+  font-size: 2.75rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+/* How a story gets made */
+.process {
+  display: grid;
+  gap: 1px;
+  max-width: none;
+  margin: 2rem 0 0;
+  padding: 0;
+  border: 1px solid var(--line);
+  background: var(--line);
+  list-style: none;
+}
+
+.process li {
+  padding: 1.25rem;
+  background: var(--white);
+  font-size: 1.0625rem;
+  line-height: 1.45;
+}
+
+.process h3 {
+  margin-bottom: 0.4rem;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+/* Footer */
+.signoff {
+  max-width: none;
+  margin: 0 0 1rem;
+  color: var(--white);
+  font-family: var(--display);
+  font-size: 13vw;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  line-height: 0.92;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.site-footer .page {
+  padding-top: 2rem;
+  color: var(--muted);
+  font-size: 1rem;
+}
+
+.site-footer p {
+  margin-block: 0;
+}
+
+.site-footer .signoff {
+  margin-bottom: 1rem;
+}
+
+/* Desktop layout: the margin gets its own column (Week 7: media query) */
+@media (min-width: 48rem) {
+  .topbar {
+    padding-inline: 2rem;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 12rem minmax(0, 1fr);
+    padding-inline: 2rem;
+  }
+
+  .page {
+    border-left: 1px solid var(--line);
+  }
+
+  .row > .page {
+    grid-column: 2;
+    padding: 3rem 0 4rem 2.5rem;
+  }
+
+  .note,
+  .wordmark {
+    padding: 3rem 1.5rem 0 0;
+    text-align: right;
+  }
+
+  .wordmark {
+    padding-block: 1.1rem 0.9rem;
+    font-size: 3rem;
+  }
+
+  .row > .page.flush,
+  .masthead .page {
+    padding-block: 1.25rem;
+  }
+
+  .row > .note + .page {
+    padding-top: 3rem;
+  }
+
+  h1 {
+    font-size: 7.6vw;
+  }
+
+  .signoff {
+    font-size: 9.6vw;
+  }
+
+  .lineup li {
+    grid-template-columns: 14rem minmax(0, 1fr) 7rem;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .status {
+    grid-column: 3;
+    justify-self: end;
+  }
+
+  .drafts li {
+    grid-template-columns: 6rem minmax(0, 1fr) 9.5rem;
+    align-items: start;
+  }
+
+  .drafts .said {
+    text-align: right;
+  }
+
+  .pile,
+  .invite {
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    gap: 3.5rem;
+  }
+
+  .pile.centered {
+    align-items: center;
+  }
+
+  .process {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .story-photo {
+    max-width: 52rem;
+  }
+
+  .article p {
+    font-size: 1.25rem;
+    line-height: 1.7;
+  }
+
+  .article .lede {
+    font-size: 1.75rem;
+    line-height: 1.3;
+  }
+
+  .article p,
+  .article .files {
+    max-width: 46rem;
+  }
+}
+
+/* On wide screens the content stops growing and centers (Week 7) */
+@media (min-width: 75rem) {
+  h1 {
+    font-size: clamp(6.25rem, 8.9vw, 8.5rem);
+  }
+
+  .signoff {
+    font-size: clamp(7rem, 11vw, 11.5rem);
+  }
+
+  .process {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 95rem) {
+  .row,
+  .topbar {
+    padding-inline: calc((100% - 91rem) / 2);
+  }
+}
+
+/* Respect people who turn animation off (Week 10) */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
