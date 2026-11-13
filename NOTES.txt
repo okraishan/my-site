@@ -1,0 +1,16 @@
+git init
+    ADD THE README.md
+    ADD THE .gitignore
+
+git pull
+
+...edit something inside the project
+git add .
+git commit -m "message"
+git push
+
+git status
+
+
+1- Make it public
+2- Settings -> Go Pages -> 
